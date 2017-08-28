@@ -2,18 +2,54 @@
 
 #pragma comment(lib, "scrnsavw")
 #pragma comment(lib, "comctl32")
+#pragma comment(lib, "dwmapi")
 
 #include <windows.h>
 #include <scrnsave.h>
 #include <atlbase.h>
 #include <atlwin.h>
 #include <wmp.h>
+#include <dwmapi.h>
+#include <vector>
+#include <algorithm>
+#include <functional>
 #include "resource.h"
 
 CComModule _Module;
 
 BEGIN_OBJECT_MAP(ObjectMap)
 END_OBJECT_MAP()
+
+int GetArea(const LPRECT lpRect)
+{
+	return (lpRect->right - lpRect->left) * (lpRect->bottom - lpRect->top);
+}
+
+bool operator>(const RECT& left, const RECT& right)
+{
+	return GetArea((LPRECT)&left) > GetArea((LPRECT)&right);
+}
+
+BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+{
+	MONITORINFOEX MonitorInfoEx;
+	MonitorInfoEx.cbSize = sizeof(MonitorInfoEx);
+	if (GetMonitorInfo(hMonitor, &MonitorInfoEx) != 0)
+	{
+		DEVMODE dm = { 0 };
+		dm.dmSize = sizeof(DEVMODE);
+		if (EnumDisplaySettings(MonitorInfoEx.szDevice, ENUM_CURRENT_SETTINGS, &dm) != 0)
+		{
+			const int nMonitorWidth = dm.dmPelsWidth;
+			const int nMonitorHeight = dm.dmPelsHeight;
+			const int nMonitorPosX = dm.dmPosition.x;
+			const int nMonitorPosY = dm.dmPosition.y;
+			RECT rect = { nMonitorPosX, nMonitorPosY, nMonitorPosX + nMonitorWidth, nMonitorPosY + nMonitorHeight };
+			((std::vector<RECT>*)dwData)->push_back(rect);
+		}
+	}
+	return TRUE;
+}
 
 BOOL PlayVideo(HWND hWnd, LPCTSTR lpszFilePath, BOOL bMute)
 {
@@ -88,16 +124,20 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 {
 	static Setting setting;
 	static HWND hWindowsMediaPlayerControl;
+	static std::vector<RECT> MonitorList;
+	static std::vector<HTHUMBNAIL> ThumbnailList;
 	switch (msg)
 	{
 	case WM_CREATE:
+		EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)&MonitorList);
+		std::sort(MonitorList.begin(), MonitorList.end(), std::greater<RECT>());
 		setting.Load();
 		AtlAxWinInit();
 		_Module.Init(ObjectMap, ((LPCREATESTRUCT)lParam)->hInstance);
 		{
 			LPOLESTR lpolestr;
 			StringFromCLSID(__uuidof(WindowsMediaPlayer), &lpolestr);
-			hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, WS_CHILD | WS_VISIBLE | WS_DISABLED, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
+			hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, WS_POPUP | WS_VISIBLE | WS_DISABLED, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
 			CoTaskMemFree(lpolestr);
 		}
 		if (hWindowsMediaPlayerControl)
@@ -113,6 +153,12 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					SysFreeString(bstrText);
 					pIWMPPlayer.Release();
 				}
+				CComPtr<IWMPPlayer2> pIWMPPlayer2;
+				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPPlayer2), (VOID**)&pIWMPPlayer2))))
+				{
+					pIWMPPlayer2->put_stretchToFit(VARIANT_TRUE);
+					pIWMPPlayer2.Release();
+				}
 				CComPtr<IWMPSettings> pIWMPSettings;
 				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPSettings), (VOID**)&pIWMPSettings))))
 				{
@@ -123,6 +169,14 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				}
 				pUnknown.Release();
 			}
+			for (unsigned int i = 1; i < MonitorList.size(); ++i)
+			{
+				HTHUMBNAIL thumbnail;
+				if (SUCCEEDED(DwmRegisterThumbnail(hWnd, hWindowsMediaPlayerControl, &thumbnail)))
+				{
+					ThumbnailList.push_back(thumbnail);
+				}
+			}
 			if (PathFileExists(setting.GetFilePath()))
 			{
 				PlayVideo(hWindowsMediaPlayerControl, setting.GetFilePath(), setting.GetMute());
@@ -130,12 +184,29 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		break;
 	case WM_SIZE:
-		MoveWindow(hWindowsMediaPlayerControl, 0, 0, LOWORD(lParam), HIWORD(lParam), TRUE);
+		MoveWindow(hWindowsMediaPlayerControl, MonitorList[0].left, MonitorList[0].top, MonitorList[0].right - MonitorList[0].left, MonitorList[0].bottom - MonitorList[0].top, TRUE);
+		for (unsigned int i = 1; i < MonitorList.size(); ++i)
+		{
+			RECT dest = MonitorList[i];
+			ScreenToClient(hWnd, (LPPOINT)&dest.left);
+			ScreenToClient(hWnd, (LPPOINT)&dest.right);
+			DWM_THUMBNAIL_PROPERTIES dskThumbProps;
+			dskThumbProps.dwFlags = DWM_TNP_RECTDESTINATION | DWM_TNP_VISIBLE | DWM_TNP_SOURCECLIENTAREAONLY;
+			dskThumbProps.fSourceClientAreaOnly = FALSE;
+			dskThumbProps.fVisible = TRUE;
+			dskThumbProps.opacity = 255;
+			dskThumbProps.rcDestination = dest;
+			DwmUpdateThumbnailProperties(ThumbnailList[i - 1], &dskThumbProps);
+		}
 		break;
 	case WM_DESTROY:
 		DestroyWindow(hWindowsMediaPlayerControl);
 		AtlAxWinTerm();
 		_Module.Term();
+		for (auto thumbnail : ThumbnailList)
+		{
+			DwmUnregisterThumbnail(thumbnail);
+		}
 		PostQuitMessage(0);
 		break;
 	default:
