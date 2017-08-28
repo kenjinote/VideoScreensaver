@@ -16,6 +16,7 @@
 #include "resource.h"
 
 CComModule _Module;
+WNDPROC DefaultVideoWndProc;
 
 BEGIN_OBJECT_MAP(ObjectMap)
 END_OBJECT_MAP()
@@ -49,6 +50,18 @@ BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 		}
 	}
 	return TRUE;
+}
+
+LRESULT CALLBACK MyVideoWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_MOUSEMOVE)
+	{
+		return SendMessage(GetParent(hWnd), msg, wParam, lParam);
+	}
+	else
+	{
+		return CallWindowProc(DefaultVideoWndProc, hWnd, msg, wParam, lParam);
+	}
 }
 
 BOOL PlayVideo(HWND hWnd, LPCTSTR lpszFilePath, BOOL bMute)
@@ -137,11 +150,12 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			LPOLESTR lpolestr;
 			StringFromCLSID(__uuidof(WindowsMediaPlayer), &lpolestr);
-			hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, WS_POPUP | WS_VISIBLE | WS_DISABLED, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
+			hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, WS_POPUP | WS_VISIBLE, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
 			CoTaskMemFree(lpolestr);
 		}
 		if (hWindowsMediaPlayerControl)
 		{
+			DefaultVideoWndProc = (WNDPROC)SetWindowLongPtr(hWindowsMediaPlayerControl, GWL_WNDPROC, (LONG_PTR)MyVideoWndProc);
 			CComPtr<IUnknown> pUnknown;
 			if (SUCCEEDED(AtlAxGetControl(hWindowsMediaPlayerControl, &pUnknown)))
 			{
