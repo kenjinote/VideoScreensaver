@@ -140,9 +140,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CWMPEventDispatch.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CWMPEventDispatch.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

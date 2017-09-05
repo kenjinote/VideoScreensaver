@@ -14,9 +14,11 @@
 #include <algorithm>
 #include <functional>
 #include <random>
+#include "CWMPEventDispatch.h"
 #include "resource.h"
 
 CComModule _Module;
+HWND _hMainWindowHandle;
 WNDPROC DefaultVideoWndProc;
 WNDPROC DefaultListBoxWndProc;
 
@@ -161,116 +163,151 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	static std::vector<RECT> MonitorList;
 	static std::vector<HTHUMBNAIL> ThumbnailList;
 	static BOOL bPreviewMode;
+	static CComWMPEventDispatch *m_pEventListener;
+	static CComPtr<IConnectionPoint>   m_spConnectionPoint;
+	static DWORD                       m_dwAdviseCookie;
+	static CComPtr<IWMPEvents>         m_spEventListener;
 	switch (msg)
 	{
 	case WM_CREATE:
-	{
-		int n;
-		LPTSTR* argv = CommandLineToArgvW(GetCommandLine(), &n);
-		if (argv)
+		_hMainWindowHandle = hWnd;
 		{
-			for (int i = 1; i < n; ++i)
+			int n;
+			LPTSTR* argv = CommandLineToArgvW(GetCommandLine(), &n);
+			if (argv)
 			{
-				if (lstrcmpi(argv[i], L"/P") == 0 || lstrcmpi(argv[i], L"/L") == 0)
+				for (int i = 1; i < n; ++i)
 				{
-					bPreviewMode = TRUE;
-					break;
-				}
-			}
-			LocalFree(argv);
-		}
-	}
-	if (!bPreviewMode)
-	{
-		EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)&MonitorList);
-		std::sort(MonitorList.begin(), MonitorList.end(), std::greater<RECT>());
-	}
-	setting.Load();
-	AtlAxWinInit();
-	_Module.Init(ObjectMap, ((LPCREATESTRUCT)lParam)->hInstance);
-	{
-		LPOLESTR lpolestr;
-		StringFromCLSID(__uuidof(WindowsMediaPlayer), &lpolestr);
-		hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, (bPreviewMode ? WS_CHILD | WS_DISABLED : WS_POPUP) | WS_VISIBLE, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
-		CoTaskMemFree(lpolestr);
-	}
-	if (hWindowsMediaPlayerControl)
-	{
-		if (!bPreviewMode)
-		{
-			DefaultVideoWndProc = (WNDPROC)SetWindowLongPtr(hWindowsMediaPlayerControl, GWL_WNDPROC, (LONG_PTR)MyVideoWndProc);
-			for (unsigned int i = 1; i < MonitorList.size(); ++i)
-			{
-				HTHUMBNAIL thumbnail;
-				if (SUCCEEDED(DwmRegisterThumbnail(hWnd, hWindowsMediaPlayerControl, &thumbnail)))
-				{
-					ThumbnailList.push_back(thumbnail);
-				}
-			}
-		}
-		CComPtr<IUnknown> pUnknown;
-		if (SUCCEEDED(AtlAxGetControl(hWindowsMediaPlayerControl, &pUnknown)))
-		{
-			CComPtr<IWMPPlayer2> pIWMPPlayer2;
-			if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPPlayer2), (VOID**)&pIWMPPlayer2))))
-			{
-				pIWMPPlayer2->put_stretchToFit(VARIANT_TRUE);
-				pIWMPPlayer2.Release();
-			}
-			CComPtr<IWMPSettings> pIWMPSettings;
-			if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPSettings), (VOID**)&pIWMPSettings))))
-			{
-				pIWMPSettings->put_autoStart(VARIANT_FALSE);
-				BSTR bstrText = SysAllocString(TEXT("loop"));
-				pIWMPSettings->setMode(bstrText, VARIANT_TRUE);
-				SysFreeString(bstrText);
-				if (setting.GetRandom())
-				{
-					setting.Shuffle();
-					bstrText = SysAllocString(TEXT("shuffle"));
-					pIWMPSettings->setMode(bstrText, VARIANT_TRUE);
-					SysFreeString(bstrText);
-				}
-				pIWMPSettings.Release();
-			}
-			CComPtr<IWMPPlayer> pIWMPPlayer;
-			if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPPlayer), (VOID**)&pIWMPPlayer))))
-			{
-				BSTR bstrText = SysAllocString(TEXT("none"));
-				pIWMPPlayer->put_uiMode(bstrText);
-				SysFreeString(bstrText);
-				const int nFilePathCount = setting.GetFilePathCount();
-				for (int i = 0; i < nFilePathCount; ++i)
-				{
-					LPTSTR lpszFilePath = setting.GetFilePath(i);
-					if (lpszFilePath && PathFileExists(lpszFilePath))
+					if (lstrcmpi(argv[i], L"/P") == 0 || lstrcmpi(argv[i], L"/L") == 0)
 					{
-						BSTR bstrText = SysAllocString(lpszFilePath);
-						pIWMPPlayer->put_URL(bstrText);
-						SysFreeString(bstrText);
+						bPreviewMode = TRUE;
+						break;
 					}
 				}
-				pIWMPPlayer.Release();
+				LocalFree(argv);
 			}
-			if (setting.GetMute())
+		}
+		if (!bPreviewMode)
+		{
+			EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)&MonitorList);
+			std::sort(MonitorList.begin(), MonitorList.end(), std::greater<RECT>());
+		}
+		setting.Load();
+		AtlAxWinInit();
+		_Module.Init(ObjectMap, ((LPCREATESTRUCT)lParam)->hInstance);
+		{
+			LPOLESTR lpolestr;
+			StringFromCLSID(__uuidof(WindowsMediaPlayer), &lpolestr);
+			hWindowsMediaPlayerControl = CreateWindow(TEXT(ATLAXWIN_CLASS), lpolestr, (bPreviewMode ? WS_CHILD | WS_DISABLED : WS_POPUP) | WS_VISIBLE, 0, 0, 0, 0, hWnd, 0, ((LPCREATESTRUCT)lParam)->hInstance, 0);
+			CoTaskMemFree(lpolestr);
+		}
+		if (hWindowsMediaPlayerControl)
+		{
+			if (!bPreviewMode)
+			{
+				DefaultVideoWndProc = (WNDPROC)SetWindowLongPtr(hWindowsMediaPlayerControl, GWL_WNDPROC, (LONG_PTR)MyVideoWndProc);
+				for (unsigned int i = 1; i < MonitorList.size(); ++i)
+				{
+					HTHUMBNAIL thumbnail;
+					if (SUCCEEDED(DwmRegisterThumbnail(hWnd, hWindowsMediaPlayerControl, &thumbnail)))
+					{
+						ThumbnailList.push_back(thumbnail);
+					}
+				}
+			}
+			CComPtr<IUnknown> pUnknown;
+			if (SUCCEEDED(AtlAxGetControl(hWindowsMediaPlayerControl, &pUnknown)))
 			{
 				CComPtr<IWMPSettings> pIWMPSettings;
 				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPSettings), (VOID**)&pIWMPSettings))))
 				{
-					pIWMPSettings->put_mute(TRUE);
+					pIWMPSettings->put_autoStart(VARIANT_FALSE);
+					BSTR bstrText = SysAllocString(TEXT("loop"));
+					pIWMPSettings->setMode(bstrText, VARIANT_TRUE);
+					SysFreeString(bstrText);
+					if (setting.GetRandom())
+					{
+						setting.Shuffle();
+						bstrText = SysAllocString(TEXT("shuffle"));
+						pIWMPSettings->setMode(bstrText, VARIANT_TRUE);
+						SysFreeString(bstrText);
+					}
 					pIWMPSettings.Release();
 				}
+				CComPtr<IWMPPlayer4> pIWMPPlayer;
+				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPPlayer4), (VOID**)&pIWMPPlayer))))
+				{
+					pIWMPPlayer->put_stretchToFit(VARIANT_TRUE);
+					BSTR bstrText = SysAllocString(TEXT("none"));
+					pIWMPPlayer->put_uiMode(bstrText);
+					SysFreeString(bstrText);
+
+					const int nFilePathCount = setting.GetFilePathCount();
+					if (nFilePathCount > 0)
+					{
+						CComPtr<IWMPPlaylist> pIWMPPlaylist;
+						if ((SUCCEEDED(pIWMPPlayer->get_currentPlaylist(&pIWMPPlaylist))))
+						{
+							for (int i = 0; i < nFilePathCount; ++i)
+							{
+								CComPtr<IWMPMedia> pIWMPMedia;
+								if ((SUCCEEDED(pIWMPPlayer->newMedia(setting.GetFilePath(i), &pIWMPMedia))))
+								{
+									pIWMPPlaylist->appendItem(pIWMPMedia);
+									pIWMPMedia.Release();
+								}
+							}
+							pIWMPPlaylist.Release();
+						}
+					}
+					HRESULT hr = CComWMPEventDispatch::CreateInstance(&m_pEventListener);
+					m_spEventListener = m_pEventListener;
+					if (SUCCEEDED(hr))
+					{
+						CComPtr<IConnectionPointContainer> spConnectionContainer;
+						hr = pIWMPPlayer->QueryInterface(&spConnectionContainer);
+						if (SUCCEEDED(hr))
+						{
+							hr = spConnectionContainer->FindConnectionPoint(__uuidof(IWMPEvents), &m_spConnectionPoint);
+							if (FAILED(hr))
+							{
+								hr = spConnectionContainer->FindConnectionPoint(__uuidof(_WMPOCXEvents), &m_spConnectionPoint);
+							}
+							spConnectionContainer.Release();
+						}
+						if (SUCCEEDED(hr))
+						{
+							hr = m_spConnectionPoint->Advise(m_spEventListener, &m_dwAdviseCookie);
+						}
+					}
+					pIWMPPlayer.Release();
+				}
+				CComPtr<IWMPControls> pIWMPControls;
+				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPControls), (VOID**)&pIWMPControls))))
+				{
+					pIWMPControls->play();
+					pIWMPControls.Release();
+				}
+				pUnknown.Release();
 			}
-			CComPtr<IWMPControls> pIWMPControls;
-			if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPControls), (VOID**)&pIWMPControls))))
-			{
-				pIWMPControls->play();
-				pIWMPControls.Release();
-			}
-			pUnknown.Release();
 		}
-	}
-	break;
+		break;
+	case WM_APP:
+		if (setting.GetMute())
+		{
+			CComPtr<IUnknown> pUnknown;
+			if (SUCCEEDED(AtlAxGetControl(hWindowsMediaPlayerControl, &pUnknown)))
+			{
+				CComPtr<IWMPSettings> pIWMPSettings;
+				if ((SUCCEEDED(pUnknown->QueryInterface(__uuidof(IWMPSettings), (VOID**)&pIWMPSettings))))
+				{
+					pIWMPSettings->put_mute(VARIANT_TRUE);
+					pIWMPSettings.Release();
+				}
+				pUnknown.Release();
+			}
+		}
+		break;
 	case WM_SIZE:
 		if (bPreviewMode)
 		{
@@ -297,6 +334,16 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		break;
 	case WM_DESTROY:
+		if (m_spConnectionPoint)
+		{
+			if (0 != m_dwAdviseCookie)
+				m_spConnectionPoint->Unadvise(m_dwAdviseCookie);
+			//m_spConnectionPoint.Release(); // Release すると終了時に落ちる
+		}
+		if (m_spEventListener)
+		{
+			m_spEventListener.Release();
+		}
 		DestroyWindow(hWindowsMediaPlayerControl);
 		AtlAxWinTerm();
 		_Module.Term();
@@ -324,6 +371,10 @@ LRESULT CALLBACK MyListBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			PostMessage(GetParent(hWnd), WM_COMMAND, IDC_BUTTON3, 0);
 		}
+		else if (wParam == 'A' && GetAsyncKeyState(VK_CONTROL) < 0)
+		{
+			SendDlgItemMessage(GetParent(hWnd), IDC_LIST1, LB_SETSEL, 1, -1);
+		}
 		break;
 	}
 	return CallWindowProc(DefaultListBoxWndProc, hWnd, msg, wParam, lParam);
@@ -343,112 +394,128 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 				LPTSTR lpszFilePath = setting.GetFilePath(i);
 				if (lpszFilePath)
 				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
 				}
 			}
+			PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
 		}
 		SendDlgItemMessage(hWnd, IDC_CHECK1, BM_SETCHECK, setting.GetMute() ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendDlgItemMessage(hWnd, IDC_CHECK2, BM_SETCHECK, setting.GetRandom() ? BST_CHECKED : BST_UNCHECKED, 0);
 		DefaultListBoxWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_LIST1), GWLP_WNDPROC, (LONG_PTR)MyListBoxProc);
 		return TRUE;
 	case WM_DROPFILES:
-	{
-		const UINT nFileCount = DragQueryFile((HDROP)wParam, 0xFFFFFFFF, NULL, 0);
-		for (UINT i = 0; i < nFileCount; ++i)
 		{
-			TCHAR szFilePath[MAX_PATH];
-			DragQueryFile((HDROP)wParam, i, szFilePath, _countof(szFilePath));
-			if (PathMatchSpec(szFilePath, TEXT("*.avi;*.mpg;*.wmv;*.mp4;*.mov;")))
+			SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+			const UINT nFileCount = DragQueryFile((HDROP)wParam, 0xFFFFFFFF, NULL, 0);
+			for (UINT i = 0; i < nFileCount; ++i)
 			{
-				SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+				TCHAR szFilePath[MAX_PATH];
+				DragQueryFile((HDROP)wParam, i, szFilePath, _countof(szFilePath));
+				if (PathMatchSpec(szFilePath, TEXT("*.avi;*.mpg;*.wmv;*.mp4;*.mov;")))
+				{
+					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+				}
 			}
+			DragFinish((HDROP)wParam);
+			PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
 		}
-		DragFinish((HDROP)wParam);
-	}
-	return TRUE;
+		return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDC_BUTTON2:
-		{
-#define MAX_CFileDialog_FILE_COUNT 99
-#define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
-			LPTSTR lpszFilePath = (LPTSTR)GlobalAlloc(GMEM_ZEROINIT, sizeof(TCHAR) * FILE_LIST_BUFFER_SIZE);
-			OPENFILENAME of = { 0 };
-			of.lStructSize = sizeof(OPENFILENAME);
-			of.hwndOwner = hWnd;
-			of.lpstrFilter = TEXT("動画ファイル\0*.avi;*.mpg;*.wmv;*.mp4;*.mov;\0すべてのファイル (*.*)\0*.*\0\0");
-			of.lpstrFile = lpszFilePath;
-			of.nMaxFile = FILE_LIST_BUFFER_SIZE;
-			of.nMaxFileTitle = MAX_PATH;
-			of.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
-			of.lpstrTitle = TEXT("動画ファイルの指定");
-			if (GetOpenFileName(&of) != 0)
 			{
-				if (PathIsDirectory(lpszFilePath))
+				#define MAX_CFileDialog_FILE_COUNT 99
+				#define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
+				LPTSTR lpszFilePath = (LPTSTR)GlobalAlloc(GMEM_ZEROINIT, sizeof(TCHAR) * FILE_LIST_BUFFER_SIZE);
+				OPENFILENAME of = { 0 };
+				of.lStructSize = sizeof(OPENFILENAME);
+				of.hwndOwner = hWnd;
+				of.lpstrFilter = TEXT("動画ファイル\0*.avi;*.mpg;*.wmv;*.mp4;*.mov;\0すべてのファイル (*.*)\0*.*\0\0");
+				of.lpstrFile = lpszFilePath;
+				of.nMaxFile = FILE_LIST_BUFFER_SIZE;
+				of.nMaxFileTitle = MAX_PATH;
+				of.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+				of.lpstrTitle = TEXT("動画ファイルの指定");
+				if (GetOpenFileName(&of))
 				{
-					TCHAR szDirectory[MAX_PATH];
-					lstrcpy(szDirectory, lpszFilePath);
-					LPTSTR p = lpszFilePath;
-					while (*(p += lstrlen(p) + 1) != TEXT('\0'))
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+					if (PathIsDirectory(lpszFilePath))
+					{
+						TCHAR szDirectory[MAX_PATH];
+						lstrcpy(szDirectory, lpszFilePath);
+						LPTSTR p = lpszFilePath;
+						while (*(p += lstrlen(p) + 1) != TEXT('\0'))
+						{
+							TCHAR szFilePath[MAX_PATH];
+							lstrcpy(szFilePath, szDirectory);
+							PathAppend(szFilePath, p);
+							const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+							SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+						}
+					}
+					else if (PathFileExists(lpszFilePath))
+					{
+						const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+						SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+					}
+					PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+				}
+				GlobalFree(lpszFilePath);
+			}
+			return TRUE;
+		case IDC_BUTTON3:
+			{
+				const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
+				if (nSelCount > 0)
+				{
+					int * nSelItems = (int*)GlobalAlloc(0, sizeof(int)*nSelCount);
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
+					for (int i = nSelCount - 1; i >= 0; --i)
+					{
+						SendDlgItemMessage(hWnd, IDC_LIST1, LB_DELETESTRING, nSelItems[i], 0);
+					}
+					const int nGetCount = SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+					if (nGetCount > 0)
+					{
+						SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
+						SetFocus(GetDlgItem(hWnd, IDC_LIST1));
+					}
+					GlobalFree(nSelItems);
+					PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+				}
+			}
+			return TRUE;
+		case IDC_LIST1:
+			if (HIWORD(wParam) == LBN_SELCHANGE)
+			{
+				const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
+				EnableWindow(GetDlgItem(hWnd, IDC_BUTTON3), nSelCount > 0);
+			}
+			return TRUE;
+		case IDOK:
+			{
+				TCHAR szFilePath[MAX_PATH];
+				GetDlgItemText(hWnd, IDC_EDIT1, szFilePath, _countof(szFilePath));
+				PathUnquoteSpaces(szFilePath);
+				setting.ClearFilePath();
+				{
+					const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+					for (int i = 0; i < nItemCount; ++i)
 					{
 						TCHAR szFilePath[MAX_PATH];
-						lstrcpy(szFilePath, szDirectory);
-						PathAppend(szFilePath, p);
-						SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+						SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETTEXT, i, (LPARAM)szFilePath);
+						setting.AddFilePath(szFilePath);
 					}
 				}
-				else if (PathFileExists(lpszFilePath))
-				{
-					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETCURSEL, nIndex, 0);
-				}
+				setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK1, BM_GETCHECK, 0, 0));
+				setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK2, BM_GETCHECK, 0, 0));
+				setting.Save();
+				EndDialog(hWnd, IDOK);
 			}
-			GlobalFree(lpszFilePath);
-		}
-		return TRUE;
-		case IDC_BUTTON3:
-		{
-			const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
-			if (nSelCount > 0)
-			{
-				int * nSelItems = (int*)GlobalAlloc(0, sizeof(int)*nSelCount);
-				SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
-				for (int i = nSelCount - 1; i >= 0; --i)
-				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_DELETESTRING, nSelItems[i], 0);
-				}
-				const int nGetCount = SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
-				if (nGetCount > 0)
-				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
-					SetFocus(GetDlgItem(hWnd, IDC_LIST1));
-				}
-				GlobalFree(nSelItems);
-			}
-		}
-		return TRUE;
-		case IDOK:
-		{
-			TCHAR szFilePath[MAX_PATH];
-			GetDlgItemText(hWnd, IDC_EDIT1, szFilePath, _countof(szFilePath));
-			PathUnquoteSpaces(szFilePath);
-			setting.ClearFilePath();
-			{
-				const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
-				for (int i = 0; i < nItemCount; ++i)
-				{
-					TCHAR szFilePath[MAX_PATH];
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETTEXT, i, (LPARAM)szFilePath);
-					setting.AddFilePath(szFilePath);
-				}
-			}
-			setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK1, BM_GETCHECK, 0, 0));
-			setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK2, BM_GETCHECK, 0, 0));
-			setting.Save();
-			EndDialog(hWnd, IDOK);
-		}
-		return TRUE;
+			return TRUE;
 		case IDCANCEL:
 			EndDialog(hWnd, IDCANCEL);
 			return TRUE;
