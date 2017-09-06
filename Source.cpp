@@ -402,6 +402,8 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		}
 		SendDlgItemMessage(hWnd, IDC_CHECK1, BM_SETCHECK, setting.GetMute() ? BST_CHECKED : BST_UNCHECKED, 0);
 		SendDlgItemMessage(hWnd, IDC_CHECK2, BM_SETCHECK, setting.GetRandom() ? BST_CHECKED : BST_UNCHECKED, 0);
+		ChangeWindowMessageFilterEx(hWnd, WM_DROPFILES, MSGFLT_ALLOW, 0);
+		ChangeWindowMessageFilterEx(hWnd, /*WM_COPYGLOBALDATA*/ 0x0049, MSGFLT_ALLOW, 0);
 		DefaultListBoxWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_LIST1), GWLP_WNDPROC, (LONG_PTR)MyListBoxProc);
 		return TRUE;
 	case WM_DROPFILES:
