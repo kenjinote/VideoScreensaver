@@ -45,11 +45,12 @@ BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 		dm.dmSize = sizeof(DEVMODE);
 		if (EnumDisplaySettings(MonitorInfoEx.szDevice, ENUM_CURRENT_SETTINGS, &dm) != 0)
 		{
-			const int nMonitorWidth = dm.dmPelsWidth;
-			const int nMonitorHeight = dm.dmPelsHeight;
-			const int nMonitorPosX = dm.dmPosition.x;
-			const int nMonitorPosY = dm.dmPosition.y;
-			RECT rect = { nMonitorPosX, nMonitorPosY, nMonitorPosX + nMonitorWidth, nMonitorPosY + nMonitorHeight };
+			RECT rect = {
+				dm.dmPosition.x,
+				dm.dmPosition.y,
+				dm.dmPosition.x + dm.dmPelsWidth,
+				dm.dmPosition.y + dm.dmPelsHeight
+			};
 			((std::vector<RECT>*)dwData)->push_back(rect);
 		}
 	}
