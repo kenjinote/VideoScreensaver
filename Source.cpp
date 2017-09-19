@@ -500,9 +500,6 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			return TRUE;
 		case IDOK:
 			{
-				TCHAR szFilePath[MAX_PATH];
-				GetDlgItemText(hWnd, IDC_EDIT1, szFilePath, _countof(szFilePath));
-				PathUnquoteSpaces(szFilePath);
 				setting.ClearFilePath();
 				{
 					const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
