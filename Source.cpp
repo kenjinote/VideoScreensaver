@@ -321,7 +321,7 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			MoveWindow(hWindowsMediaPlayerControl, MonitorList[0].left, MonitorList[0].top, MonitorList[0].right - MonitorList[0].left, MonitorList[0].bottom - MonitorList[0].top, TRUE);
 			for (unsigned int i = 0; i < MonitorList.size() - 1; ++i)
 			{
-				RECT dest = MonitorList[i];
+				RECT dest = MonitorList[i + 1];
 				ScreenToClient(hWnd, (LPPOINT)&dest.left);
 				ScreenToClient(hWnd, (LPPOINT)&dest.right);
 				DWM_THUMBNAIL_PROPERTIES dskThumbProps;
