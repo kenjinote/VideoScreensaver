@@ -319,7 +319,7 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		else
 		{
 			MoveWindow(hWindowsMediaPlayerControl, MonitorList[0].left, MonitorList[0].top, MonitorList[0].right - MonitorList[0].left, MonitorList[0].bottom - MonitorList[0].top, TRUE);
-			for (unsigned int i = 1; i < MonitorList.size(); ++i)
+			for (unsigned int i = 0; i < MonitorList.size() - 1; ++i)
 			{
 				RECT dest = MonitorList[i];
 				ScreenToClient(hWnd, (LPPOINT)&dest.left);
@@ -330,7 +330,7 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				dskThumbProps.fVisible = TRUE;
 				dskThumbProps.opacity = 255;
 				dskThumbProps.rcDestination = dest;
-				DwmUpdateThumbnailProperties(ThumbnailList[i - 1], &dskThumbProps);
+				DwmUpdateThumbnailProperties(ThumbnailList[i], &dskThumbProps);
 			}
 		}
 		break;
