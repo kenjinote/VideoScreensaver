@@ -1,4 +1,4 @@
-﻿#pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #pragma comment(lib, "scrnsavw")
 #pragma comment(lib, "comctl32")
@@ -46,10 +46,10 @@ BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 		if (EnumDisplaySettings(MonitorInfoEx.szDevice, ENUM_CURRENT_SETTINGS, &dm) != 0)
 		{
 			RECT rect = {
-				dm.dmPosition.x,
-				dm.dmPosition.y,
-				dm.dmPosition.x + dm.dmPelsWidth,
-				dm.dmPosition.y + dm.dmPelsHeight
+			dm.dmPosition.x,
+			dm.dmPosition.y,
+			dm.dmPosition.x + dm.dmPelsWidth,
+			dm.dmPosition.y + dm.dmPelsHeight
 			};
 			((std::vector<RECT>*)dwData)->push_back(rect);
 		}
@@ -91,23 +91,23 @@ public:
 			DWORD nFilePathCount = 0;
 			dwType = REG_DWORD;
 			dwByte = sizeof(DWORD);
-			RegQueryValueEx(hKey, TEXT("FilePathCount"), NULL, &dwType, (BYTE *)&nFilePathCount, &dwByte);
+			RegQueryValueEx(hKey, TEXT("FilePathCount"), NULL, &dwType, (BYTE*)&nFilePathCount, &dwByte);
 			dwType = REG_SZ;
 			for (DWORD i = 0; i < nFilePathCount; ++i) {
 				TCHAR szKeyName[16];
 				wsprintf(szKeyName, TEXT("FilePath%d"), i);
 				if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKeyName, NULL, &dwType, NULL, &dwByte)) {
 					LPTSTR lpszFilePath = (LPTSTR)GlobalAlloc(0, dwByte);
-					RegQueryValueEx(hKey, szKeyName, NULL, &dwType, (BYTE *)lpszFilePath, &dwByte);
+					RegQueryValueEx(hKey, szKeyName, NULL, &dwType, (BYTE*)lpszFilePath, &dwByte);
 					AddFilePath(lpszFilePath);
 				}
 			}
 			dwType = REG_DWORD;
 			dwByte = sizeof(DWORD);
-			RegQueryValueEx(hKey, TEXT("Mute"), NULL, &dwType, (BYTE *)&m_dwMute, &dwByte);
+			RegQueryValueEx(hKey, TEXT("Mute"), NULL, &dwType, (BYTE*)&m_dwMute, &dwByte);
 			dwType = REG_DWORD;
 			dwByte = sizeof(DWORD);
-			RegQueryValueEx(hKey, TEXT("Random"), NULL, &dwType, (BYTE *)&m_dwRandom, &dwByte);
+			RegQueryValueEx(hKey, TEXT("Random"), NULL, &dwType, (BYTE*)&m_dwRandom, &dwByte);
 			RegCloseKey(hKey);
 		}
 	}
@@ -116,16 +116,16 @@ public:
 		DWORD dwPosition;
 		if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, REG_KEY, 0, 0, 0, KEY_WRITE, 0, &hKey, &dwPosition)) {
 			const DWORD nFilePathCount = GetFilePathCount();
-			RegSetValueEx(hKey, TEXT("FilePathCount"), 0, REG_DWORD, (CONST BYTE *)&nFilePathCount, sizeof(DWORD));
+			RegSetValueEx(hKey, TEXT("FilePathCount"), 0, REG_DWORD, (CONST BYTE*) & nFilePathCount, sizeof(DWORD));
 			for (DWORD i = 0; i < nFilePathCount; ++i)
 			{
 				TCHAR szKeyName[16];
 				wsprintf(szKeyName, TEXT("FilePath%d"), i);
 				LPCTSTR lpszFilePath = GetFilePath(i);
-				RegSetValueEx(hKey, szKeyName, 0, REG_SZ, (CONST BYTE *)lpszFilePath, sizeof(TCHAR) * (lstrlen(lpszFilePath) + 1));
+				RegSetValueEx(hKey, szKeyName, 0, REG_SZ, (CONST BYTE*)lpszFilePath, sizeof(TCHAR) * (lstrlen(lpszFilePath) + 1));
 			}
-			RegSetValueEx(hKey, TEXT("Mute"), 0, REG_DWORD, (CONST BYTE *)&m_dwMute, sizeof(DWORD));
-			RegSetValueEx(hKey, TEXT("Random"), 0, REG_DWORD, (CONST BYTE *)&m_dwRandom, sizeof(DWORD));
+			RegSetValueEx(hKey, TEXT("Mute"), 0, REG_DWORD, (CONST BYTE*) & m_dwMute, sizeof(DWORD));
+			RegSetValueEx(hKey, TEXT("Random"), 0, REG_DWORD, (CONST BYTE*) & m_dwRandom, sizeof(DWORD));
 			RegCloseKey(hKey);
 		}
 	}
@@ -164,7 +164,7 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	static std::vector<RECT> MonitorList;
 	static std::vector<HTHUMBNAIL> ThumbnailList;
 	static BOOL bPreviewMode;
-	static CComWMPEventDispatch *m_pEventListener;
+	static CComWMPEventDispatch* m_pEventListener;
 	static CComPtr<IConnectionPoint>   m_spConnectionPoint;
 	static DWORD                       m_dwAdviseCookie;
 	static CComPtr<IWMPEvents>         m_spEventListener;
@@ -319,9 +319,9 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		else
 		{
 			MoveWindow(hWindowsMediaPlayerControl, MonitorList[0].left, MonitorList[0].top, MonitorList[0].right - MonitorList[0].left, MonitorList[0].bottom - MonitorList[0].top, TRUE);
-			for (unsigned int i = 0; i < MonitorList.size() - 1; ++i)
+			for (unsigned int i = 1; i < MonitorList.size(); ++i)
 			{
-				RECT dest = MonitorList[i + 1];
+				RECT dest = MonitorList[i];
 				ScreenToClient(hWnd, (LPPOINT)&dest.left);
 				ScreenToClient(hWnd, (LPPOINT)&dest.right);
 				DWM_THUMBNAIL_PROPERTIES dskThumbProps;
@@ -330,7 +330,7 @@ LRESULT WINAPI ScreenSaverProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				dskThumbProps.fVisible = TRUE;
 				dskThumbProps.opacity = 255;
 				dskThumbProps.rcDestination = dest;
-				DwmUpdateThumbnailProperties(ThumbnailList[i], &dskThumbProps);
+				DwmUpdateThumbnailProperties(ThumbnailList[i - 1], &dskThumbProps);
 			}
 		}
 		break;
@@ -408,89 +408,89 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		DefaultListBoxWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_LIST1), GWLP_WNDPROC, (LONG_PTR)MyListBoxProc);
 		return TRUE;
 	case WM_DROPFILES:
+	{
+		SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+		const UINT nFileCount = DragQueryFile((HDROP)wParam, 0xFFFFFFFF, NULL, 0);
+		for (UINT i = 0; i < nFileCount; ++i)
 		{
-			SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
-			const UINT nFileCount = DragQueryFile((HDROP)wParam, 0xFFFFFFFF, NULL, 0);
-			for (UINT i = 0; i < nFileCount; ++i)
+			TCHAR szFilePath[MAX_PATH];
+			DragQueryFile((HDROP)wParam, i, szFilePath, _countof(szFilePath));
+			if (PathMatchSpec(szFilePath, TEXT("*.avi;*.mpg;*.wmv;*.mp4;*.mov;")))
 			{
-				TCHAR szFilePath[MAX_PATH];
-				DragQueryFile((HDROP)wParam, i, szFilePath, _countof(szFilePath));
-				if (PathMatchSpec(szFilePath, TEXT("*.avi;*.mpg;*.wmv;*.mp4;*.mov;")))
-				{
-					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
-				}
+				const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+				SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
 			}
-			DragFinish((HDROP)wParam);
-			PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
 		}
-		return TRUE;
+		DragFinish((HDROP)wParam);
+		PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+	}
+	return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDC_BUTTON2:
+		{
+#define MAX_CFileDialog_FILE_COUNT 99
+#define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
+			LPTSTR lpszFilePath = (LPTSTR)GlobalAlloc(GMEM_ZEROINIT, sizeof(TCHAR) * FILE_LIST_BUFFER_SIZE);
+			OPENFILENAME of = { 0 };
+			of.lStructSize = sizeof(OPENFILENAME);
+			of.hwndOwner = hWnd;
+			of.lpstrFilter = TEXT("動画ファイル\0*.avi;*.mpg;*.wmv;*.mp4;*.mov;\0すべてのファイル (*.*)\0*.*\0\0");
+			of.lpstrFile = lpszFilePath;
+			of.nMaxFile = FILE_LIST_BUFFER_SIZE;
+			of.nMaxFileTitle = MAX_PATH;
+			of.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+			of.lpstrTitle = TEXT("動画ファイルの指定");
+			if (GetOpenFileName(&of))
 			{
-				#define MAX_CFileDialog_FILE_COUNT 99
-				#define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
-				LPTSTR lpszFilePath = (LPTSTR)GlobalAlloc(GMEM_ZEROINIT, sizeof(TCHAR) * FILE_LIST_BUFFER_SIZE);
-				OPENFILENAME of = { 0 };
-				of.lStructSize = sizeof(OPENFILENAME);
-				of.hwndOwner = hWnd;
-				of.lpstrFilter = TEXT("動画ファイル\0*.avi;*.mpg;*.wmv;*.mp4;*.mov;\0すべてのファイル (*.*)\0*.*\0\0");
-				of.lpstrFile = lpszFilePath;
-				of.nMaxFile = FILE_LIST_BUFFER_SIZE;
-				of.nMaxFileTitle = MAX_PATH;
-				of.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
-				of.lpstrTitle = TEXT("動画ファイルの指定");
-				if (GetOpenFileName(&of))
+				SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+				if (PathIsDirectory(lpszFilePath))
 				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
-					if (PathIsDirectory(lpszFilePath))
+					TCHAR szDirectory[MAX_PATH];
+					lstrcpy(szDirectory, lpszFilePath);
+					LPTSTR p = lpszFilePath;
+					while (*(p += lstrlen(p) + 1) != TEXT('\0'))
 					{
-						TCHAR szDirectory[MAX_PATH];
-						lstrcpy(szDirectory, lpszFilePath);
-						LPTSTR p = lpszFilePath;
-						while (*(p += lstrlen(p) + 1) != TEXT('\0'))
-						{
-							TCHAR szFilePath[MAX_PATH];
-							lstrcpy(szFilePath, szDirectory);
-							PathAppend(szFilePath, p);
-							const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
-							SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
-						}
-					}
-					else if (PathFileExists(lpszFilePath))
-					{
-						const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+						TCHAR szFilePath[MAX_PATH];
+						lstrcpy(szFilePath, szDirectory);
+						PathAppend(szFilePath, p);
+						const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
 						SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
 					}
-					PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
 				}
-				GlobalFree(lpszFilePath);
-			}
-			return TRUE;
-		case IDC_BUTTON3:
-			{
-				const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
-				if (nSelCount > 0)
+				else if (PathFileExists(lpszFilePath))
 				{
-					int * nSelItems = (int*)GlobalAlloc(0, sizeof(int)*nSelCount);
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
-					for (int i = nSelCount - 1; i >= 0; --i)
-					{
-						SendDlgItemMessage(hWnd, IDC_LIST1, LB_DELETESTRING, nSelItems[i], 0);
-					}
-					const int nGetCount = SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
-					if (nGetCount > 0)
-					{
-						SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
-						SetFocus(GetDlgItem(hWnd, IDC_LIST1));
-					}
-					GlobalFree(nSelItems);
-					PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
 				}
+				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
 			}
-			return TRUE;
+			GlobalFree(lpszFilePath);
+		}
+		return TRUE;
+		case IDC_BUTTON3:
+		{
+			const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
+			if (nSelCount > 0)
+			{
+				int* nSelItems = (int*)GlobalAlloc(0, sizeof(int) * nSelCount);
+				SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
+				for (int i = nSelCount - 1; i >= 0; --i)
+				{
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_DELETESTRING, nSelItems[i], 0);
+				}
+				const int nGetCount = SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+				if (nGetCount > 0)
+				{
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
+					SetFocus(GetDlgItem(hWnd, IDC_LIST1));
+				}
+				GlobalFree(nSelItems);
+				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+			}
+		}
+		return TRUE;
 		case IDC_LIST1:
 			if (HIWORD(wParam) == LBN_SELCHANGE)
 			{
@@ -499,23 +499,26 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			}
 			return TRUE;
 		case IDOK:
+		{
+			TCHAR szFilePath[MAX_PATH];
+			GetDlgItemText(hWnd, IDC_EDIT1, szFilePath, _countof(szFilePath));
+			PathUnquoteSpaces(szFilePath);
+			setting.ClearFilePath();
 			{
-				setting.ClearFilePath();
+				const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+				for (int i = 0; i < nItemCount; ++i)
 				{
-					const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
-					for (int i = 0; i < nItemCount; ++i)
-					{
-						TCHAR szFilePath[MAX_PATH];
-						SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETTEXT, i, (LPARAM)szFilePath);
-						setting.AddFilePath(szFilePath);
-					}
+					TCHAR szFilePath[MAX_PATH];
+					SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETTEXT, i, (LPARAM)szFilePath);
+					setting.AddFilePath(szFilePath);
 				}
-				setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK1, BM_GETCHECK, 0, 0));
-				setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK2, BM_GETCHECK, 0, 0));
-				setting.Save();
-				EndDialog(hWnd, IDOK);
 			}
-			return TRUE;
+			setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK1, BM_GETCHECK, 0, 0));
+			setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK2, BM_GETCHECK, 0, 0));
+			setting.Save();
+			EndDialog(hWnd, IDOK);
+		}
+		return TRUE;
 		case IDCANCEL:
 			EndDialog(hWnd, IDCANCEL);
 			return TRUE;
