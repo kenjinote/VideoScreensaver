@@ -1,0 +1,9 @@
+﻿################################################################################
+# この .gitignore ファイルは Microsoft(R) Visual Studio によって自動的に作成されました。
+################################################################################
+
+/.vs/VideoScreensaver
+/Debug
+/.vs
+/Installer/Install Files/VideoScreensaver.scr
+/Release
