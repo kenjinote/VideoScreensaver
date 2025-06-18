@@ -6,8 +6,6 @@ extern HWND _hMainWindowHandle;
 #include <atlcom.h>
 #include <atlhost.h>
 #include <atlctl.h>
-#include <afxres.h>
-
 #include "wmpids.h"
 #include "wmp.h"
 
