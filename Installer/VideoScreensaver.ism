@@ -201,7 +201,7 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>videoscreensaver.scr</td><td>Files</td><td>VideoScreensaver.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectDataFolder&gt;\Install Files\VideoScreensaver.scr</td><td>1</td><td/></row>
+		<row><td>videoscreensaver.scr</td><td>Files</td><td>VideoScreensaver.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\VideoScreensaver.scr</td><td>1</td><td/></row>
 	</table>
 
 	<table name="Font">
@@ -331,7 +331,39 @@
 	<table name="ISLanguage">
 		<col key="yes" def="s50">ISLanguage</col>
 		<col def="I2">Included</col>
+		<row><td>1026</td><td>1</td></row>
+		<row><td>1027</td><td>1</td></row>
+		<row><td>1028</td><td>1</td></row>
+		<row><td>1029</td><td>1</td></row>
+		<row><td>1030</td><td>1</td></row>
+		<row><td>1031</td><td>1</td></row>
+		<row><td>1032</td><td>1</td></row>
+		<row><td>1033</td><td>1</td></row>
+		<row><td>1034</td><td>1</td></row>
+		<row><td>1035</td><td>1</td></row>
+		<row><td>1036</td><td>1</td></row>
+		<row><td>1038</td><td>1</td></row>
+		<row><td>1040</td><td>1</td></row>
 		<row><td>1041</td><td>1</td></row>
+		<row><td>1042</td><td>1</td></row>
+		<row><td>1043</td><td>1</td></row>
+		<row><td>1044</td><td>1</td></row>
+		<row><td>1045</td><td>1</td></row>
+		<row><td>1046</td><td>1</td></row>
+		<row><td>1048</td><td>1</td></row>
+		<row><td>1049</td><td>1</td></row>
+		<row><td>1050</td><td>1</td></row>
+		<row><td>1051</td><td>1</td></row>
+		<row><td>1053</td><td>1</td></row>
+		<row><td>1054</td><td>1</td></row>
+		<row><td>1055</td><td>1</td></row>
+		<row><td>1057</td><td>1</td></row>
+		<row><td>1060</td><td>1</td></row>
+		<row><td>1069</td><td>1</td></row>
+		<row><td>2052</td><td>1</td></row>
+		<row><td>2070</td><td>1</td></row>
+		<row><td>3084</td><td>1</td></row>
+		<row><td>3098</td><td>1</td></row>
 	</table>
 
 	<table name="ISLinkerLibrary">
@@ -408,6 +440,7 @@
 		<row><td>ISProductFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectDataFolder</td><td>1</td><td/><td>1</td></row>
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
+		<row><td>PATH_TO_RELEASE_FILES</td><td>C:\Users\kenjinote\source\repos\VideoScreensaver\Release</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
 		<row><td>WindowsFolder</td><td/><td/><td>1</td></row>
@@ -730,12 +763,204 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1026</td><td>Пълна</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1027</td><td>Finalitza</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1028</td><td>完整安裝</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1029</td><td>Úplná</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1030</td><td>Fuldstændig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1031</td><td>Vollständig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1032</td><td>Πλήρης</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1033</td><td>Complete</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1034</td><td>Completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1035</td><td>Täydellinen</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1036</td><td>Installation standard</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1038</td><td>Befejezés</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1040</td><td>Completa</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1041</td><td>完全</td><td>0</td><td/><td/></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1042</td><td>전체 설치</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1043</td><td>Volledig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1044</td><td>Fullstendig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1045</td><td>Pełna</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1046</td><td>Completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1048</td><td>Complet</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1049</td><td>Полная</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1050</td><td>Dovršeno</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1051</td><td>Ukončiť</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1053</td><td>Fullständig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1054</td><td>สมบูรณ์</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1055</td><td>Tam</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1057</td><td>Selesaikan</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1060</td><td>Zaključi</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>1069</td><td>Osoa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>2052</td><td>完整安装</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>2070</td><td>Completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>3084</td><td>Installation standard</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE</td><td>3098</td><td>Потпуно</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1026</td><td>Пълна описание</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1027</td><td>Finalitza</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1028</td><td>完整安裝</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1029</td><td>Popis Úplná instalace</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1030</td><td>Fuldstændig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1031</td><td>Vollständig - Beschreibung</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1032</td><td>Περιγραφή Πλήρης Εγκατάστασης</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1033</td><td>Complete</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1034</td><td>Descripción completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1035</td><td>Täydellinen kuvaus</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1036</td><td>Installatio&amp;n standard</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1038</td><td>Befejezés leírás</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1040</td><td>Descrizione Completa</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1041</td><td>すべての説明</td><td>0</td><td/><td/></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1042</td><td>전체 설치 설명</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1043</td><td>Volledig</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1044</td><td>Fullstendig, beskrivelse</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1045</td><td>Opis pełna instalacji</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1046</td><td>Descrição de Completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1048</td><td>Descriere Complet</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1049</td><td>Описание Полной установки</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1050</td><td>Dovršeno Opis</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1051</td><td>Popis Ukončiťej inštalácie</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1053</td><td>Fullständig beskrivning</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1054</td><td>คำอธิบายของแบบสมบูรณ์</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1055</td><td>Tam Açıklaması</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1057</td><td>Deskripsi Selesaikan</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1060</td><td>Opis zaključi</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>1069</td><td>Osoa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>2052</td><td>完整安装</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>2070</td><td>Descrição completa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>3084</td><td>Description de l'installation Installation standard</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_COMPLETE_DESC</td><td>3098</td><td>Потпуно Опис</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1026</td><td>Потребителски</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1027</td><td>Personalitzada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1028</td><td>自訂</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1029</td><td>Vlastní</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1030</td><td>Special</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1031</td><td>Benutzerdefiniert</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1032</td><td>Ατομικευμένη</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1033</td><td>Custom</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1034</td><td>Personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1035</td><td>Mukautettu</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1036</td><td>Personnalisée</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1038</td><td>Egyéni</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1040</td><td>Personalizzata</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1041</td><td>カスタム</td><td>0</td><td/><td/></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1042</td><td>사용자 정의</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1043</td><td>Aangepast</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1044</td><td>Tilpasset</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1045</td><td>Niestandardowa</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1046</td><td>Personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1048</td><td>Personalizat</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1049</td><td>Выборочная</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1050</td><td>Uobičajeno</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1051</td><td>Používateľská</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1053</td><td>Egen</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1054</td><td>กำหนดเอง</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1055</td><td>Özel</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1057</td><td>Custom</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1060</td><td>Kupec</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>1069</td><td>Pertsonalizatua</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>2052</td><td>自定义</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>2070</td><td>Personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>3084</td><td>Personnalisée</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM</td><td>3098</td><td>Уобичајено</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1026</td><td>Потребителско описание</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1027</td><td>Personalitzada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1028</td><td>自訂</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1029</td><td>Popis vlastní instalace</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1030</td><td>Special</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1031</td><td>Benutzerdefiniert - Beschreibung</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1032</td><td>Περιγραφή Ατομικευμένης Εγκατάστασης</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1033</td><td>Custom</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1034</td><td>Descripción personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1035</td><td>Mukautettu kuvaus</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1036</td><td>Description personnalisée</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1038</td><td>Egyéni leírás</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1040</td><td>Descrizione personalizzata</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1041</td><td>カスタムの説明</td><td>0</td><td/><td/></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1042</td><td>사용자 정의 설명</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1043</td><td>Aangepast</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1044</td><td>Tilpasset, beskrivelse</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1045</td><td>Opis niestandardowej instalacji</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1046</td><td>Descrição de Personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1048</td><td>Descriere personalizat</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1049</td><td>Описание выборочной установки</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1050</td><td>Uobičajeno Opis</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1051</td><td>Popis používateľskej inštalácie</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1053</td><td>Egen beskrivning</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1054</td><td>คำอธิบายของแบบกำหนดเอง</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1055</td><td>Özel Açıklaması</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1057</td><td>Deskripsi Custom</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1060</td><td>Opis kupca</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>1069</td><td>Pertsonalizatua</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>2052</td><td>自定义</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>2070</td><td>Descrição personalizada</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>3084</td><td>Description de l'installation personnalisée</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDPROP_SETUPTYPE_CUSTOM_DESC_PRO</td><td>3098</td><td>Уобичајено Опис</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1026</td><td>Изпълнение на скрипт за инсталиране на SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1027</td><td>S'està executant l'script d'instal·lació del SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1028</td><td>正在執行 SQL 安裝指令檔...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1029</td><td>Probíhá vykonávání instalačního skriptu SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1030</td><td>Udfører SQL-installationsscript...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1031</td><td>SQL-Installationsskript wird ausgeführt...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1032</td><td>Εκτέλεση Προγράμματος Εγκατάστασης SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1033</td><td>Executing SQL Install Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1034</td><td>Ejecutando archivo de comandos de instalación de SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1035</td><td>SQL-asennusskriptiä suoritetaan...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1036</td><td>Exécution du script d'installation SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1038</td><td>Az SQL telepítési parancsfájl végrehajtása...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1040</td><td>Esecuzione dello script per l'installazione SQL in corso...</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1041</td><td>SQL インストールスクリプトを実行中…</td><td>0</td><td/><td/></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1042</td><td>기존의 SQL 설치 스크립트...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1043</td><td>Bezig met uitvoeren van SQL-installatiescript...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1044</td><td>Utfører SQL-installasjonsskript...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1045</td><td>Wykonywanie skryptu instalacyjnego SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1046</td><td>Executando o script de instalação de SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1048</td><td>Se execută scriptul SQL Install...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1049</td><td>Выполнение сценария установки SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1050</td><td>Izvršavanje SQL Install naredbe...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1051</td><td>Prebieha vykonávanie inštalačného skriptu SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1053</td><td>Installerar SQL Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1054</td><td>กำลังดำเนินการกับสคริปต์สำหรับติดตั้ง SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1055</td><td>SQL Yükleme Komut Dosyası Yürütülüyor...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1057</td><td>Menjalankan SQL Install Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1060</td><td>Izvajanje SQL skripta za nameščanje...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>1069</td><td>SQL Instalatu Scripta exekutatzen...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>2052</td><td>正在执行 SQL 安装脚本...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>2070</td><td>A executar o script de instalação SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>3084</td><td>Exécution du script d'installation SQL…</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_INSTALLING</td><td>3098</td><td>Извршавање SQL скрипта за инсталацију...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1026</td><td>Изпълнение на скрипт за деинсталиране на SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1027</td><td>S'està executant l'script de desinstal.lació del SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1028</td><td>正在執行 SQL 解除安裝指令檔...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1029</td><td>Probíhá vykonávání odinstalačního skriptu SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1030</td><td>Udfører script til fjernelse af SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1031</td><td>SQL-Deinstallationsskript wird ausgeführt...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1032</td><td>Εκτέλεση Προγράμματος Κατάργησης Εγκατάστασης SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1033</td><td>Executing SQL Uninstall Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1034</td><td>Ejecutando archivo de comandos de desinstalación de SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1035</td><td>SQL-asennuksen poistoskriptiä suoritetaan...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1036</td><td>Exécution du script de désinstallation SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1038</td><td>Az SQL eltávolítási parancsfájl végrehajtása...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1040</td><td>Esecuzione dello script per la disinstallazione SQL in corso...</td><td>0</td><td/><td>-2069036427</td></row>
 		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1041</td><td>SQL アンインストールスクリプトを実行中…</td><td>0</td><td/><td/></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1042</td><td>SQL 제거 스크립트 실행...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1043</td><td>Bezig met uitvoeren van SQL-verwijderscript...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1044</td><td>Utfører SQL-avinstallasjonsskript...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1045</td><td>Wykonywanie skryptu dezinstalacyjnego SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1046</td><td>Executando o script de desinstalação de SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1048</td><td>Se execută scriptul SQL Uninstall...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1049</td><td>Выполнение сценария удаления SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1050</td><td>Izvršavanje SQL Uninstall naredbe...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1051</td><td>Prebieha vykonávanie odinštalačného skriptu SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1053</td><td>Avinstallerar SQL Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1054</td><td>กำลังดำเนินการกับสคริปต์สำหรับถอดถอนการติดตั้ง SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1055</td><td>SQL Yüklemeyi Kaldırma Komut Dosyası Yürütülüyor...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1057</td><td>Menjalankan SQL Uninstall Script...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1060</td><td>Izvajanje SQL skripta za odstranitev...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>1069</td><td>SQL Desinstalatu Scripta exekutatzen...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>2052</td><td>正在执行 SQL 卸载脚本...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>2070</td><td>A executar o script de desinstalação SQL...</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>3084</td><td>Exécution du script de désinstallation SQL…</td><td>0</td><td/><td>-2069036427</td></row>
+		<row><td>IDS_SQLSCRIPT_UNINSTALLING</td><td>3098</td><td>Извршавање SQL скрипта за деинсталацију...</td><td>0</td><td/><td>-2069036427</td></row>
 	</table>
 
 	<table name="ISVirtualDirectory">
@@ -772,6 +997,15 @@
 		<col key="yes" def="s72">Shortcut_</col>
 		<col key="yes" def="s72">Name</col>
 		<col def="s255">Value</col>
+	</table>
+
+	<table name="ISVisualElement">
+		<col key="yes" def="s72">File_</col>
+		<col def="s72">BackgroundColor</col>
+		<col def="s72">ForegroundText</col>
+		<col def="s72">ShowNameOn150x150</col>
+		<col def="S255">Square150x150Logo</col>
+		<col def="S255">Square70x70Logo</col>
 	</table>
 
 	<table name="ISXmlElement">
@@ -819,7 +1053,7 @@
 	<table name="InstallShield">
 		<col key="yes" def="s72">Property</col>
 		<col def="S0">Value</col>
-		<row><td>ActiveLanguage</td><td>1041</td></row>
+		<row><td>ActiveLanguage</td><td>1033</td></row>
 		<row><td>Comments</td><td/></row>
 		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="bda357a34262bb9777365025e93dc2dd">
 UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
@@ -842,13 +1076,14 @@ UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
 		<row><td>ISMaintenanceExperience</td><td>0</td></row>
 		<row><td>ISOSFilter</td><td>-1</td></row>
 		<row><td>ISShowUpdateUI</td><td>1</td></row>
+		<row><td>ISUpdateNotifications</td><td>0</td></row>
 		<row><td>MIFFileName</td><td>Status</td></row>
 		<row><td>MIFSerial</td><td/></row>
 		<row><td>Owner</td><td/></row>
 		<row><td>SaveAsSchema</td><td/></row>
 		<row><td>SccEnabled</td><td>0</td></row>
 		<row><td>SccPath</td><td/></row>
-		<row><td>SchemaVersion</td><td>776</td></row>
+		<row><td>SchemaVersion</td><td>785</td></row>
 		<row><td>Script</td><td>1</td></row>
 		<row><td>SetupArguments</td><td/></row>
 		<row><td>TARGETDIR</td><td>&lt;FOLDER_APPLICATIONS&gt;\&lt;IFX_COMPANY_NAME&gt;\&lt;IFX_PRODUCT_NAME&gt;</td></row>
@@ -903,8 +1138,9 @@ UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
 		<col def="S255">ISComments</col>
 		<row><td>ARPURLINFOABOUT</td><td>http://hack.jp</td><td/></row>
 		<row><td>DWUSINTERVAL</td><td>30</td><td/></row>
+		<row><td>DWUSLINK</td><td/><td/></row>
 		<row><td>DefaultUIFont</td><td>Tahoma8</td><td/></row>
-		<row><td>ISAppExeFile</td><td>YourApp.exe</td><td/></row>
+		<row><td>ISAppExeFile</td><td>VideoScreensaver.exe</td><td/></row>
 		<row><td>ISENABLEDWUSFINISHDIALOG</td><td/><td/></row>
 		<row><td>ISVROOT_PORT_NO</td><td>0</td><td/></row>
 		<row><td>IS_SQLSERVER_AUTHENTICATION</td><td>0</td><td/></row>
@@ -947,7 +1183,7 @@ UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
 		<row><td>ProObjUseDefaultSettings</td><td>##IDS_PROOBJ_USEDEFAULTSETTINGS##</td><td/></row>
 		<row><td>ProductCode</td><td>{C799E229-55F6-4BED-88D1-0D9D2709007B}</td><td/></row>
 		<row><td>ProductName</td><td>VideoScreensaver</td><td/></row>
-		<row><td>ProductVersion</td><td>1.00.0007</td><td/></row>
+		<row><td>ProductVersion</td><td>1.08</td><td/></row>
 	</table>
 
 	<table name="RadioButton">
@@ -1240,7 +1476,7 @@ UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
 		<row><td>ISProductConfiguration</td><td>ISProductConfiguration</td><td>N</td><td/><td/><td/><td/><td>Text</td><td/><td>The name of the product configuration.</td></row>
 		<row><td>ISProductConfiguration</td><td>ProductConfigurationFlags</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>Product configuration (release) flags.</td></row>
 		<row><td>ISProductConfigurationProperty</td><td>ISProductConfiguration_</td><td>N</td><td/><td/><td>ISProductConfiguration</td><td>1</td><td>Text</td><td/><td>Foreign key into the ISProductConfiguration table.</td></row>
-		<row><td>ISProductConfigurationProperty</td><td>Property</td><td>N</td><td/><td/><td>Property</td><td>1</td><td>Text</td><td/><td>Product Congiuration property name</td></row>
+		<row><td>ISProductConfigurationProperty</td><td>Property</td><td>N</td><td/><td/><td/><td/><td>Text</td><td/><td>Product Congiuration property name</td></row>
 		<row><td>ISProductConfigurationProperty</td><td>Value</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>String value for property. Never null or empty.</td></row>
 		<row><td>ISRegistrySet</td><td>Comments</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>User Comments.</td></row>
 		<row><td>ISRegistrySet</td><td>ISRegistrySet</td><td>N</td><td/><td/><td/><td/><td>Text</td><td/><td>Name of the Registry Set</td></row>
@@ -1464,6 +1700,12 @@ UwBJAE4ARwBMAEUAXwBFAFgARQBfAEkATQBBAEcARQABAE0AZQBkAGkAYQA=
 		<row><td>ISVirtualShortcut</td><td>Name</td><td>N</td><td/><td/><td/><td/><td>Identifier</td><td/><td>Property name</td></row>
 		<row><td>ISVirtualShortcut</td><td>Shortcut_</td><td>N</td><td/><td/><td>Shortcut</td><td>1</td><td>Identifier</td><td/><td>Foreign key into Shortcut table.</td></row>
 		<row><td>ISVirtualShortcut</td><td>Value</td><td>N</td><td/><td/><td/><td/><td/><td/><td>Property value</td></row>
+		<row><td>ISVisualElement</td><td>BackgroundColor</td><td>N</td><td/><td/><td/><td/><td>Text</td><td/><td>Background Color for the tile</td></row>
+		<row><td>ISVisualElement</td><td>File_</td><td>N</td><td/><td/><td>File</td><td>1</td><td>Identifier</td><td/><td>Foreign key into File table.</td></row>
+		<row><td>ISVisualElement</td><td>ForegroundText</td><td>N</td><td/><td/><td/><td/><td>Text</td><td>light;dark</td><td>Text color for the tile</td></row>
+		<row><td>ISVisualElement</td><td>ShowNameOn150x150</td><td>N</td><td/><td/><td/><td/><td>Text</td><td>on;off</td><td>Whether to show the name on a medium-sized square title</td></row>
+		<row><td>ISVisualElement</td><td>Square150x150Logo</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>Optional base name for image to show on a medium-sized square tile</td></row>
+		<row><td>ISVisualElement</td><td>Square70x70Logo</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>Optional base name for image to show on a small-sized square tile</td></row>
 		<row><td>ISXmlElement</td><td>Content</td><td>Y</td><td/><td/><td/><td/><td>Text</td><td/><td>Element contents</td></row>
 		<row><td>ISXmlElement</td><td>ISAttributes</td><td>Y</td><td/><td/><td/><td/><td>Number</td><td/><td>Internal XML element attributes</td></row>
 		<row><td>ISXmlElement</td><td>ISXmlElement</td><td>N</td><td/><td/><td/><td/><td>Identifier</td><td/><td>Primary key, non-localized, internal token for Xml element</td></row>

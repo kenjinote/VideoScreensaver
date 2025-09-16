@@ -7,3 +7,6 @@
 /.vs
 /Installer/Install Files/VideoScreensaver.scr
 /Release
+/Installer/Media/SINGLE_EXE_IMAGE
+/Installer/VideoScreensaver.ism.776
+*.aps

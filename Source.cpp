@@ -1,6 +1,4 @@
-﻿#pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-
-#pragma comment(lib, "scrnsavw")
+﻿#pragma comment(lib, "scrnsavw")
 #pragma comment(lib, "comctl32")
 #pragma comment(lib, "dwmapi")
 
@@ -370,11 +368,11 @@ LRESULT CALLBACK MyListBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_KEYDOWN:
 		if (wParam == VK_DELETE)
 		{
-			PostMessage(GetParent(hWnd), WM_COMMAND, IDC_BUTTON3, 0);
+			PostMessage(GetParent(hWnd), WM_COMMAND, IDC_BUTTON_DELETE, 0);
 		}
 		else if (wParam == 'A' && GetAsyncKeyState(VK_CONTROL) < 0)
 		{
-			SendDlgItemMessage(GetParent(hWnd), IDC_LIST1, LB_SETSEL, 1, -1);
+			SendDlgItemMessage(GetParent(hWnd), IDC_VIDEO_LIST, LB_SETSEL, 1, -1);
 		}
 		break;
 	}
@@ -387,6 +385,28 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	switch (msg)
 	{
 	case WM_INITDIALOG:
+		{
+			//SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_NEUTRAL));
+			WCHAR szText[256];
+			LoadString(0, IDS_STRING500, szText, _countof(szText));
+			SetWindowText(hWnd, szText);
+			LoadString(0, IDS_STRING501, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_STATIC_VIDEO_SPECIFICATION, szText);
+			LoadString(0, IDS_STRING502, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_BUTTON_ADD, szText);
+			LoadString(0, IDS_STRING503, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_BUTTON_DELETE, szText);
+			LoadString(0, IDS_STRING504, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_CHECK_MUTE, szText);
+			LoadString(0, IDS_STRING505, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_CHECK_RANDOM, szText);
+			LoadString(0, IDS_STRING506, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDC_STATIC_VERSION, szText);
+			LoadString(0, IDS_STRING507, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDOK, szText);
+			LoadString(0, IDS_STRING508, szText, _countof(szText));
+			SetDlgItemText(hWnd, IDCANCEL, szText);
+		}
 		setting.Load();
 		{
 			const int nFilePathCount = setting.GetFilePathCount();
@@ -395,21 +415,21 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 				LPTSTR lpszFilePath = setting.GetFilePath(i);
 				if (lpszFilePath)
 				{
-					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+					SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 1, nIndex);
 				}
 			}
-			PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+			PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_VIDEO_LIST, LBN_SELCHANGE), 0);
 		}
-		SendDlgItemMessage(hWnd, IDC_CHECK1, BM_SETCHECK, setting.GetMute() ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hWnd, IDC_CHECK2, BM_SETCHECK, setting.GetRandom() ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hWnd, IDC_CHECK_MUTE, BM_SETCHECK, setting.GetMute() ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hWnd, IDC_CHECK_RANDOM, BM_SETCHECK, setting.GetRandom() ? BST_CHECKED : BST_UNCHECKED, 0);
 		ChangeWindowMessageFilterEx(hWnd, WM_DROPFILES, MSGFLT_ALLOW, 0);
 		ChangeWindowMessageFilterEx(hWnd, /*WM_COPYGLOBALDATA*/ 0x0049, MSGFLT_ALLOW, 0);
-		DefaultListBoxWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_LIST1), GWLP_WNDPROC, (LONG_PTR)MyListBoxProc);
+		DefaultListBoxWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_VIDEO_LIST), GWLP_WNDPROC, (LONG_PTR)MyListBoxProc);
 		return TRUE;
 	case WM_DROPFILES:
 	{
-		SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+		SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 0, -1);
 		const UINT nFileCount = DragQueryFile((HDROP)wParam, 0xFFFFFFFF, NULL, 0);
 		for (UINT i = 0; i < nFileCount; ++i)
 		{
@@ -417,18 +437,18 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			DragQueryFile((HDROP)wParam, i, szFilePath, _countof(szFilePath));
 			if (PathMatchSpec(szFilePath, L"*.avi;*.mpg;*.wmv;*.mp4;*.mov;"))
 			{
-				const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
-				SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+				const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+				SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 1, nIndex);
 			}
 		}
 		DragFinish((HDROP)wParam);
-		PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+		PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_VIDEO_LIST, LBN_SELCHANGE), 0);
 	}
 	return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case IDC_BUTTON2:
+		case IDC_BUTTON_ADD:
 		{
 #define MAX_CFileDialog_FILE_COUNT 99
 #define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
@@ -444,7 +464,7 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			of.lpstrTitle = L"動画ファイルの指定";
 			if (GetOpenFileName(&of))
 			{
-				SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 0, -1);
+				SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 0, -1);
 				if (PathIsDirectory(lpszFilePath))
 				{
 					WCHAR szDirectory[MAX_PATH];
@@ -455,47 +475,47 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 						WCHAR szFilePath[MAX_PATH];
 						lstrcpy(szFilePath, szDirectory);
 						PathAppend(szFilePath, p);
-						const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)szFilePath);
-						SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+						const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_ADDSTRING, 0, (LPARAM)szFilePath);
+						SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 1, nIndex);
 					}
 				}
 				else if (PathFileExists(lpszFilePath))
 				{
-					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, 1, nIndex);
+					const int nIndex = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_ADDSTRING, 0, (LPARAM)lpszFilePath);
+					SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, 1, nIndex);
 				}
-				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_VIDEO_LIST, LBN_SELCHANGE), 0);
 			}
 			GlobalFree(lpszFilePath);
 		}
 		return TRUE;
-		case IDC_BUTTON3:
+		case IDC_BUTTON_DELETE:
 		{
-			const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
+			const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETSELCOUNT, 0, 0);
 			if (nSelCount > 0)
 			{
 				int* nSelItems = (int*)GlobalAlloc(0, sizeof(int) * nSelCount);
-				SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
+				SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETSELITEMS, nSelCount, (LPARAM)nSelItems);
 				for (int i = nSelCount - 1; i >= 0; --i)
 				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_DELETESTRING, nSelItems[i], 0);
+					SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_DELETESTRING, nSelItems[i], 0);
 				}
-				const int nGetCount = SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+				const int nGetCount = SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETCOUNT, 0, 0);
 				if (nGetCount > 0)
 				{
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
-					SetFocus(GetDlgItem(hWnd, IDC_LIST1));
+					SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_SETSEL, TRUE, (nSelCount == 1) ? min(nSelItems[0], nGetCount - 1) : 0);
+					SetFocus(GetDlgItem(hWnd, IDC_VIDEO_LIST));
 				}
 				GlobalFree(nSelItems);
-				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_LIST1, LBN_SELCHANGE), 0);
+				PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_VIDEO_LIST, LBN_SELCHANGE), 0);
 			}
 		}
 		return TRUE;
-		case IDC_LIST1:
+		case IDC_VIDEO_LIST:
 			if (HIWORD(wParam) == LBN_SELCHANGE)
 			{
-				const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETSELCOUNT, 0, 0);
-				EnableWindow(GetDlgItem(hWnd, IDC_BUTTON3), nSelCount > 0);
+				const int nSelCount = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETSELCOUNT, 0, 0);
+				EnableWindow(GetDlgItem(hWnd, IDC_BUTTON_DELETE), nSelCount > 0);
 			}
 			return TRUE;
 		case IDOK:
@@ -505,16 +525,16 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 			PathUnquoteSpaces(szFilePath);
 			setting.ClearFilePath();
 			{
-				const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETCOUNT, 0, 0);
+				const int nItemCount = (int)SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETCOUNT, 0, 0);
 				for (int i = 0; i < nItemCount; ++i)
 				{
 					WCHAR szFilePath[MAX_PATH];
-					SendDlgItemMessage(hWnd, IDC_LIST1, LB_GETTEXT, i, (LPARAM)szFilePath);
+					SendDlgItemMessage(hWnd, IDC_VIDEO_LIST, LB_GETTEXT, i, (LPARAM)szFilePath);
 					setting.AddFilePath(szFilePath);
 				}
 			}
-			setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK1, BM_GETCHECK, 0, 0));
-			setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK2, BM_GETCHECK, 0, 0));
+			setting.SetMute((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK_MUTE, BM_GETCHECK, 0, 0));
+			setting.SetRandom((BOOL)SendDlgItemMessage(hWnd, IDC_CHECK_RANDOM, BM_GETCHECK, 0, 0));
 			setting.Save();
 			EndDialog(hWnd, IDOK);
 		}
